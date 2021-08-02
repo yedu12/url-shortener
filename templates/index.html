@@ -1,0 +1,40 @@
+<html>
+<head>
+    <title>MiniURL</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
+</head>
+<body>
+    <input type="hidden" id = "short-url" value="{{ url }}" >
+    <div style="color:red">{{ info|safe }}</div><br>
+    <form name="frm" action="{{ url_for(request.endpoint) }}" onsubmit="return onchanged(event)" method="POST">
+        <label for="url">Enter url:</label>
+        <input name="url" placeholder="https://youtube.com">
+        <input type="submit" value="Get">
+    </form>
+</body>
+<script>
+    function onchanged(e){
+       
+        if (document.frm.url.value != null) {
+            var patt = new RegExp("http[s]*:\/\/[www]*\.*.*\..*");
+            if (!patt.test(document.frm.url.value)){
+                alert("pleae enter valid url");
+                e.preventDefault();
+            }
+            return true;
+        }
+        else{
+            e.preventDefault();
+        } 
+    }
+    function copy(){
+        element = $("#short-url");
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val($(element).val()).select();
+        document.execCommand("copy");
+        $temp.remove();
+        alert("copied");
+}
+</script>
+</html>
